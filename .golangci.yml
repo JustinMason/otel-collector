@@ -1,0 +1,24 @@
+---
+#########################
+#########################
+## Golang Linter rules ##
+#########################
+#########################
+# configure golangci-lint
+# see https://github.com/golangci/golangci-lint/blob/master/.golangci.example.yml
+linters:
+  disable-all: true
+  enable:
+    - goimports
+    - gosec
+    - gosimple
+    - govet
+    - stylecheck
+    - unparam
+    - unused
+linters-settings:
+  goimports:
+    # A comma-separated list of prefixes, which, if set, checks import paths
+   # with the given prefixes are grouped after 3rd-party packages.
+   # Default: ""
+   local-prefixes: github.com/justinmason/

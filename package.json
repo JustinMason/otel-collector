@@ -1,0 +1,10 @@
+{
+  "name": "@justinmason/otel-collector",
+  "version": "v0.0.1",
+  "description": "OTel Collector",
+  "private": true,
+  "devDependencies": {
+    "markdownlint-rule-helpers": "^0.16.0",
+    "yaml": "^2.3.4"
+  }
+}

@@ -1,0 +1,18 @@
+# MkDocs Configuration
+#
+# This file will configure mkdocs to generate service documentation
+# that will be rendered in backstage.
+#
+# Documentation: https://www.mkdocs.org/user-guide/configuration/
+site_name: "OpenTelemetry Collector"
+
+plugins:
+  - techdocs-core
+
+markdown_extensions:
+  - toc:
+      toc_depth: 3
+      permalink: True
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.gemoji

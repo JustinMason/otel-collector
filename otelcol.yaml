@@ -1,0 +1,38 @@
+receivers:
+  prometheusremotewritereceiver:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+      http:
+        endpoint: localhost:4318
+        cors:
+          allowed_origins:
+            - http://host.docker.internal
+    metric_types:
+      counter:
+        - _counter
+        - _sum
+        - _total
+        - _count
+        - _bytes_ingress
+        - _bytes_egress
+      gauge:
+      histogram:
+      summary:
+
+processors:
+  batch:
+
+exporters:
+  debug:
+    verbosity: 'detailed'
+
+service:
+  pipelines:
+    metrics:
+      receivers:
+        - prometheusremotewritereceiver
+      processors:
+        - batch
+      exporters:
+        - debug
