@@ -1,5 +1,6 @@
 docker run -d \
   --name prometheus \
-  -p 9090:9090 \
-  -v /Users/justinmason/repos/justinmason/otel-collector/test/prometheus.yml:/etc/prometheus/prometheus.yml \
+  --net host \
+  -p 9091:9091 \
+  -v /Users/justin.mason/repos/otel-collector/test/prometheus.yml:/etc/prometheus/prometheus.yml \
   prom/prometheus

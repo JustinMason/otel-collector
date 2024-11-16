@@ -6,71 +6,48 @@ receivers:
     log_types:
       timestamp:
         - date
-  prometheusremotewritereceiver:
+  otlp:
     protocols:
       grpc:
         endpoint: localhost:4317
       http:
         endpoint: localhost:4318
-        compression_algorithms: ["snappy"]
         max_request_body_size: 40971520
         cors:
           allowed_origins:
             - http://host.docker.internal
-    metric_types:
-      counter:
-        - _counter
-        - _sum
-        - _total
-        - _count
-        - _bytes_ingress
-        - _bytes_egress
-      gauge:
-      histogram:
-      summary:
 exporters:
-  clickhouse:     
-    endpoint: 'tcp://localhost:9000/default?dial_timeout=10s&compress=lz4&secure=false'
-    database: 'default'
-    #username: 'ci_migrations'
-    #password: ''
-    ttl: 0
-    logs_table_name: 'otel_logs'
-    traces_table_name: 'otel_traces_no_replica'
-    metrics_table_name: 'otel_metrics'
-    timeout: '5s'
-    sending_queue:
-      queue_size: 10000
-      num_consumers: 20
-    retry_on_failure:
-      enabled: true
-      initial_interval: '5s'
-      max_interval: '90s'
-      max_elapsed_time: '0'
+  
   debug:
     verbosity:
+
+  datadog:
+    api:
+      site: datadoghq.com
+      key: ${env:DD_API_KEY}
 
 processors:
   batch:
     send_batch_size: 10000
     timeout: 10s
-extensions:
-  file_storage/otc:
-    directory: /Users/justinmason/repos/justinmason/otel-collector/storage
+  batch/datadog:
+    send_batch_max_size: 100
+    send_batch_size: 10
     timeout: 10s
+extensions:
   health_check:
     endpoint: 0.0.0.0:13133
 service:
-  extensions: ['file_storage/otc', 'health_check']
+  extensions: ['health_check']
   pipelines:
     metrics:
       receivers:
-        - prometheusremotewritereceiver
+        - otlp
       processors:
-        - batch
+        - batch/datadog
       exporters:
         - debug
-        - clickhouse
+        - datadog
   telemetry:
     metrics:
       address: '0.0.0.0:8888'

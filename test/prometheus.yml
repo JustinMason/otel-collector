@@ -7,4 +7,4 @@ scrape_configs:
       - targets: ['localhost:9090']
 
 remote_write:
-  - url: "http://host.docker.internal:4318/write"
+  - url: http://host.docker.internal:9090/write
